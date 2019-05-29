@@ -84,3 +84,6 @@ C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\bin\EntityFramework.xml
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\bin\EntityFramework.SqlServer.xml
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate.resources
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.csproj.GenerateResource.cache
+C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate1.resources
+C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate2.resources
+C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate3.resources

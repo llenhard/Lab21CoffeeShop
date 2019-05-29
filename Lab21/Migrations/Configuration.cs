@@ -9,7 +9,7 @@ namespace Lab21.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Lab21.ShopDB context)

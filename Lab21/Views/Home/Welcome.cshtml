@@ -1,9 +1,8 @@
-﻿
+﻿@model Customer
 @{
     ViewBag.Title = "Welcome";
 }
 
-<h2>@ViewBag.Message</h2>
-<p>This is all we were supposed to do on the lab.</p>
-<p>Your account wasn't even saved!</p>
+<h2>Hello, @ViewBag.Name!</h2>
 
+<div>@Html.ActionLink("Sign out", "LogOut", "Home")</div>

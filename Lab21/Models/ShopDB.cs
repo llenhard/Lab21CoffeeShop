@@ -4,6 +4,7 @@ namespace Lab21
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity;
+    using System.Data.Entity.Validation;
     using System.Linq;
 
     public class ShopDB : DbContext
@@ -22,29 +23,55 @@ namespace Lab21
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
-        public virtual DbSet<Customer> users { get; set; }
-        public virtual DbSet<Item> items { get; set; }
-    }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
 
+        protected virtual void ThrowEnhancedValidationException(DbEntityValidationException e)
+        {
+            var errorMessages = e.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+            var fullErrorMessage = string.Join("; ", errorMessages);
+            var exceptionMessage = string.Concat(e.Message, " The validation errors are: ", fullErrorMessage);
+            throw new DbEntityValidationException(exceptionMessage, e.EntityValidationErrors);
+        }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                ThrowEnhancedValidationException(e);
+            }
+
+            return 0;
+        }
+    }
+    
     public class Customer
     {
         [Key]
-        public string userName { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public double? balance { get; set; }
-        public Item[] purchased { get; set; }
-        public DateTime? dob { get; set; }
-        //@myself PUT MORE SHIT HERE
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public double? Balance { get; set; }
+        public Item[] Purchased { get; set; }
+        public DateTime? Dob { get; set; }
+        public string Color { get; set; }
+        public bool Pineapple { get; set; }
     }
 
     public class Item
     {
         [Key]
-        public int itemID { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public double price { get; set; }
-        public int quantity { get; set; }
+        public int ItemID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -4,11 +4,21 @@
 }
 
 <h1>@ViewBag.Title</h1>
+<h2>@ViewBag.Error</h2>
+
+<h3>Login</h3>
+<form id="login" action="/Home/TryLogin" method="post">
+    <input type="text" required placeholder="Username" name="name" /><br />
+    <input type="password" requried placeholder="Password" name="password" /><br />
+    <input type="submit" value="Login" />
+</form>
+
+<h3>Register</h3>
 <form id="register" action="/Home/TryRegister" method="post">
     Entries with * are required.<br />
-    *Username: <input type="text" required name="user" pattern="{1,20}" title="Between 1 and 20 characters." /><br />
-    *Password: <input type="password" required name="password" pattern="{1,20}" title="Between 1 and 20 characters." /><br /> @*gonna add name and stuff when we start making it save the stuff*@
-    *Email: <input type="email" required name="email" pattern="{1,50}" title="50 characters maximum." /><br />
+    *Username: <input type="text" required name="name" pattern="{1,20}" title="Between 1 and 20 characters." /><br />
+    *Password: <input type="password" required name="password" pattern="{1,20}" title="Between 1 and 20 characters." /><br />@*incoming scary regex*@
+    @Html.Raw("*Email: <input type='text' required pattern='([a - zA - Z0 - 9_\\-\\.] +)@((\\[[0 - 9]{ 1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a - zA - Z0 - 9\\-]+\\.)+))([a - zA - Z]{2,4}|[0-9]{1,3})(\\]?)$'name='email'/><br />")
     Date of birth: <input type="date" name="dob" /><br />
     Favorite color: <input type="color" name="color" /><br />
     Does pineapple belong on pizza?<br />
