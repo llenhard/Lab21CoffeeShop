@@ -51,6 +51,7 @@ namespace Lab21.Controllers
                 newUser.Dob = dob;
                 newUser.Color = color;
                 newUser.Pineapple = pineapple == "Yes" ? true : false;
+                newUser.Balance = 100;
                 db.Customers.Add(newUser);
                 db.SaveChanges();
                 return RedirectToAction("TryLogin", "Home", new { name, password });
@@ -66,7 +67,7 @@ namespace Lab21.Controllers
                  {
                     Customer loggingIn = db.Customers.Find(name);
                     Session["Logged"] = loggingIn;
-                    return RedirectToAction("Welcome", "Home");
+                    return RedirectToAction("Shop", "Home");
                  }
 
                 return RedirectToAction("Register", "Home", new { error = "Invalid login info!" });
@@ -75,13 +76,17 @@ namespace Lab21.Controllers
 
         public ActionResult Welcome()
         {
-            if ((Customer)Session["Logged"] == null)
+            using (ShopDB db = new ShopDB())
             {
-                return RedirectToAction("Register", "Home");
+                if ((Customer)Session["Logged"] == null)
+                {//if theyre not logged in send em back
+                    return RedirectToAction("Register", "Home");
+                }
+                Customer LoggedIn = (Customer)Session["Logged"];
+                ViewBag.User = LoggedIn;
+                ViewBag.Orders = db.Orders.ToList().Where(o => o.UserName == LoggedIn.UserName);
+                return View();
             }
-            Customer LoggedIn = (Customer)Session["Logged"];
-            ViewBag.Name = LoggedIn.UserName;
-            return View();
         }
 
         public bool CheckConnection()
@@ -117,6 +122,78 @@ namespace Lab21.Controllers
         {
             Session.Abandon();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Shop(string error = "")
+        {
+            ViewBag.Error = error;
+
+            using(ShopDB db = new ShopDB())
+            {
+                ViewBag.Products = db.Items.ToList();
+                return View();
+            }
+        }
+
+        public bool CanPurchase(Item item, int quantity = 1)
+        {
+            if (Session["Logged"] != null)
+            {
+                Customer buying = (Customer)Session["Logged"];
+                if(buying.Balance > item.Price * quantity)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public ActionResult UpdateInfo(int target, string value)
+        {
+            using (ShopDB db = new ShopDB())
+            {
+                Customer toUpdate = (Customer)Session["Logged"];
+                db.Customers.Attach(toUpdate);
+                switch (target)
+                {//i wish i knew a better way to do this but i didnt wanna make a bunch of
+                    case 2: toUpdate.Password = value; break;//individual methods either
+                    case 3: toUpdate.Email = value; break;
+                    case 4: toUpdate.Dob = DateTime.Parse(value); break;
+                    case 5: toUpdate.Color = value; break;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Welcome");
+            }
+
+        }
+        public ActionResult Purchase(string itemname, int quantity = 1)
+        {
+            using(ShopDB db = new ShopDB())
+            {
+                Customer buyer = (Customer)Session["Logged"];
+                db.Customers.Attach(buyer);
+                Item item = db.Items.Single(i => i.Name == itemname);
+
+                if (CanPurchase(item, quantity))
+                {
+                    Order purchase = new Order();
+                    purchase.Item = item;
+                    purchase.User = buyer;
+                    purchase.UserName = buyer.UserName;
+                    purchase.Quantity = quantity;
+                    purchase.Name = item.Name;
+                    buyer.Balance -= quantity * item.Price;
+                    item.Quantity -= quantity;
+                    db.Orders.Add(purchase);
+                    db.SaveChanges();
+                    return RedirectToAction("Shop");
+                }
+                
+                return RedirectToAction("Shop", new { error="Insufficient funds."});
+            }
+
+            
         }
     }
 }

@@ -24,8 +24,10 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Shop", "Shop", "Home")</li>
+                    <li>@Html.ActionLink("Sign out", "LogOut", "Home")</li>
                 </ul>
-                @Html.ActionLink(logged != null ? logged.UserName : "Login", "Welcome", "Home", new { @class = "navbar-brand", style="float:right" })
+                @Html.ActionLink(logged != null ? $"Balance: ${logged.Balance} | {logged.UserName}" : "Login", "Welcome", "Home", new { @class = "navbar-brand", style="float:right" })
             </div>
         </div>
     </div>

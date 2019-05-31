@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Shop";
+}
+
+<h2>Shop</h2>
+
+<div style="font-size:large">@ViewBag.Error</div>
+<table style="width:100%">
+    <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    @foreach(var Product in ViewBag.Products)
+    {
+        <tr>
+            <td>@Product.Name</td>
+            <td>@Product.Description</td>
+            <td>$@Product.Price</td>
+            <td>@Product.Quantity</td>
+            @if (Session["Logged"] != null)
+            {
+            <td><form action="Purchase"><input type="number" max="@Product.Quantity" name="quantity" value="1"/><button type="submit" placeholder="buy" value="@Product.Name" name="itemname">Buy</button></form></td>
+            }
+        </tr>
+    }
+</table>

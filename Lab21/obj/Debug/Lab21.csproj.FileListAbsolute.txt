@@ -87,3 +87,4 @@ C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.csproj.GenerateResourc
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate1.resources
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate2.resources
 C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations.InitialCreate3.resources
+C:\Users\Luke\Desktop\gc\Labs\Lab21\Lab21\obj\Debug\Lab21.Migrations._new.resources

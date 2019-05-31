@@ -3,6 +3,7 @@ namespace Lab21
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Data.Entity.Validation;
     using System.Linq;
@@ -25,6 +26,7 @@ namespace Lab21
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
 
         protected virtual void ThrowEnhancedValidationException(DbEntityValidationException e)
         {
@@ -59,7 +61,6 @@ namespace Lab21
         public string Password { get; set; }
         public string Email { get; set; }
         public double? Balance { get; set; }
-        public Item[] Purchased { get; set; }
         public DateTime? Dob { get; set; }
         public string Color { get; set; }
         public bool Pineapple { get; set; }
@@ -68,10 +69,23 @@ namespace Lab21
     public class Item
     {
         [Key]
-        public int ItemID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+    }
+
+    public class Order
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int OrderID { get; set; }
+        public int Quantity { get; set; }
+        [ForeignKey("User")]
+        public string UserName { get; set; }
+        [ForeignKey("Item")]
+        public string Name { get; set; }
+
+        public virtual Customer User { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

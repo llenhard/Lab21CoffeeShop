@@ -1,8 +1,44 @@
-﻿@model Customer
-@{
+﻿@{
     ViewBag.Title = "Welcome";
 }
 
-<h2>Hello, @ViewBag.Name!</h2>
+<h2>Hello, @ViewBag.User.UserName!</h2>
+<table style="width:100%">
+    <tr>
+        <th>Name</th>
+        <td>@ViewBag.User.UserName</td>
+    </tr>
+    <tr>
+        <th>Password</th>
+        <td><form action="UpdateInfo"><input type="password" required placeholder="Password" name="value" /><button type="submit" value="2" name="target">Change</button></form></td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td><form action="UpdateInfo"><input type='text' required placeholder='@ViewBag.User.Email' pattern='(@Html.Raw("(\\[[0 - 9]{ 1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a - zA - Z0 - 9\\-]+\\.)+))([a - zA - Z]{2,4}|[0-9]{1,3})(\\]?)$")'name='value'/><button type="submit" value="3" name="target">Change</button></form></td>
+    </tr>
+    <tr>
+        <th>Date of birth</th>
+        <td><form action="UpdateInfo"><input type="date" required value="@ViewBag.User.Dob" name="value" /><button type="submit" value="4" name="target">Change</button></form></td>
+    </tr>
+    <tr>
+        <th>Favorite color</th>
+        <td><form action="UpdateInfo"><input type="color" required value="@ViewBag.User.Color" name="value" /><button type="submit" value="5" name="target">Change</button></form></td>
+    </tr>
+</table>
 
-<div>@Html.ActionLink("Sign out", "LogOut", "Home")</div>
+<h2>Orders</h2>
+<table style="width:50%">
+    <tr>
+        <th>Order ID</th>
+        <th>Item</th>
+        <th>Quantity bought</th>
+    </tr>
+    @foreach (Order order in ViewBag.Orders)
+    {
+        <tr>
+            <td>@order.OrderID</td>
+            <td>@order.Name</td>
+            <td>@order.Quantity</td>
+        </tr>
+    }
+</table>
